@@ -127,6 +127,10 @@ Route::prefix('lokasi')->name('pages.')->group(function () {
     Route::get('/', [LokasiDaurUlangController::class, 'index'])->name('lokasi');
 });
 
+Route::get('/peta', function () {
+    return view('pages.peta'); 
+})->name('pages.peta');
+
 // ---------------------- LOGIN GOOGLE ----------------------
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

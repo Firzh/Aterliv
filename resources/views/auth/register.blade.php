@@ -16,7 +16,7 @@
             <h1 class="text-xl font-semibold mb-6 text-center text-gray-800">Create an Account</h1>
         </div>
         <div class="flex justify-center mb-4">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-[100px] w-[100px] object-contain opacity-10">
+            <img src="{{ asset('images/LATERLIV.png') }}" alt="Logo" class="h-[100px] w-[100px] object-contain opacity-100">
         </div>
 
         <form method="POST" action="{{ route('register') }}">
