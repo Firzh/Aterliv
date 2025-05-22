@@ -63,6 +63,11 @@
 
         <button type="submit" class="btn btn-primary">Kirim Permintaan</button>
     </form>
+    <div class="mt-5">
+        <h3>Pilih Lokasi pada Peta:</h3>
+        @include('partials.main-map')
+    </div>
+
 
 </div>
 @endsection
