@@ -57,7 +57,7 @@ class PenjemputanSampahController extends Controller
         
         PenjemputanSampah::create($validated);
         
-        return redirect()->route('pages.jemput')
+        return redirect()->route('pages.jemput.index')
                         ->with('success', 'Permintaan penjemputan sampah berhasil dibuat.');
     }
 
@@ -173,6 +173,24 @@ class PenjemputanSampahController extends Controller
         
         $penjemputan->update($validated);
         
+        if ($validated['status'] === 'selesai') {
+        // Buat kontribusi
+        Kontribusi::create([
+            'user_id' => $penjemputan->user_id,
+            'jenis_sampah' => $penjemputan->jenis_sampah,
+            'berat' => $penjemputan->perkiraan_berat,
+            'emisi' => $penjemputan->perkiraan_berat * $this->getFaktorEmisi($penjemputan->jenis_sampah),
+        ]);
+
+        // Tambah poin user
+        $user = $penjemputan->user;
+        $emisi = $penjemputan->perkiraan_berat * $this->getFaktorEmisi($penjemputan->jenis_sampah);
+        $poin = floor($emisi * 10);
+        $user->increment('poin', $poin);
+        $user->level = $this->getLevel($user->poin);
+        $user->save();
+    }
+
         return redirect()->route('pages.jemput')
                         ->with('success', 'Status permintaan penjemputan sampah berhasil diperbarui.');
     }

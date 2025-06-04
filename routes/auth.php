@@ -41,7 +41,6 @@ Route::middleware('guest')->group(function () {
     // Proses login admin (POST)
     Route::post('/login-admin', [AuthenticatedSessionController::class, 'storeAdmin'])
         ->name('login.admin.attempt');
-
 });
 
 Route::middleware('auth')->group(function () {

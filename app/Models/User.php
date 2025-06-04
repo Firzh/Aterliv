@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Kontribusi;
 
 class User extends Authenticatable
 {
-    public function kontribusis() {
+    public function kontribusi() {
         return $this->hasMany(Kontribusi::class);
     }
 

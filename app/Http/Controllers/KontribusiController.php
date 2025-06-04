@@ -12,18 +12,27 @@ class KontribusiController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $kontribusis = $user->kontribusis()->latest()->get();
-        $totalEmisi = $kontribusis->sum('emisi');
+        $kontribusi = $user->kontribusi()->latest()->get();
+        $totalEmisi = $kontribusi->sum('emisi');
 
-        $grafikData = $kontribusis->groupBy('jenis_sampah')->map(function ($group) {
+        $grafikData = $kontribusi->groupBy('jenis_sampah')->map(function ($group) {
             return $group->sum('emisi');
         });
 
+        // Data statistik untuk bagian bawah halaman
+        $totalBerat = $kontribusi->sum('berat');
+        $totalEnergi = $totalBerat * 3; // asumsi 1kg = 3kWh
+        $totalUserKontribusi = Kontribusi::distinct('user_id')->count();
+
         return view('pages.kontribusi', [
-            'kontribusis' => $kontribusis,
+            'kontribusis' => $kontribusi,
             'totalEmisi' => $totalEmisi,
             'grafikLabels' => $grafikData->keys(),
             'grafikValues' => $grafikData->values(),
+            // Data statistik tambahan
+            'totalBerat' => $totalBerat,
+            'totalEnergi' => $totalEnergi,
+            'totalUser' => $totalUserKontribusi,
         ]);
     }
 

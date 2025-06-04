@@ -40,24 +40,24 @@ class KalkulatorController extends Controller
         $emisi = $berat * $faktor[$jenis];
 
         // Simpan kontribusi jika user login
-        if (Auth::check()) {
-            $user = Auth::user();
+        // if (Auth::check()) {
+        //     $user = Auth::user();
 
-            Kontribusi::create([
-                'user_id' => $user->id,
-                'jenis_sampah' => $jenis,
-                'berat' => $berat,
-                'emisi' => $emisi,
-            ]);
+        //     Kontribusi::create([
+        //         'user_id' => $user->id,
+        //         'jenis_sampah' => $jenis,
+        //         'berat' => $berat,
+        //         'emisi' => $emisi,
+        //     ]);
 
-            // Tambahkan poin (misalnya: 1 poin = 0.1kg CO2 dihemat)
-            $tambahPoin = floor($emisi * 10);
-            $user->increment('poin', $tambahPoin);
+        //     // Tambahkan poin (misalnya: 1 poin = 0.1kg CO2 dihemat)
+        //     $tambahPoin = floor($emisi * 10);
+        //     $user->increment('poin', $tambahPoin);
 
-            // Update level (opsional)
-            $user->level = $this->getLevel($user->poin);
-            $user->save();
-        }
+        //     // Update level (opsional)
+        //     $user->level = $this->getLevel($user->poin);
+        //     $user->save();
+        // }
 
         return view('pages.hasil-kalkulator', [
             'jenis' => $jenis,

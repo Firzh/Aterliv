@@ -7,48 +7,53 @@ use App\Models\JenisSampah;
 
 class JenisSampahSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        $jenisSampah = [
+        $data = [
             [
-                'nama' => 'Sampah Organik',
-                'deskripsi' => 'Sampah yang berasal dari makhluk hidup dan mudah terurai secara alami.',
-                'ciri_ciri' => 'Mudah membusuk, berair, menimbulkan bau.',
-                'contoh' => 'Sisa makanan, daun-daunan, kulit buah, sayuran busuk, ranting pohon.',
-                'cara_daur_ulang' => 'Dapat dikomposkan menjadi pupuk organik atau diproses menjadi biogas.',
+                'nama' => 'Plastik',
+                'deskripsi' => 'Sampah yang terbuat dari bahan plastik.',
+                'ciri_ciri' => 'Ringan, tahan air, tidak mudah terurai.',
+                'contoh' => 'Botol plastik, kantong plastik, sedotan.',
+                'cara_daur_ulang' => 'Dapat dilelehkan dan dicetak ulang menjadi produk baru.',
+                'gambar' => 'plastik.jpg',
+            ],
+            [
+                'nama' => 'Kertas',
+                'deskripsi' => 'Sampah berbahan dasar kertas.',
+                'ciri_ciri' => 'Mudah terbakar, ringan, mudah terurai.',
+                'contoh' => 'Koran, buku, kardus.',
+                'cara_daur_ulang' => 'Dicacah dan dicetak ulang menjadi kertas daur ulang.',
+                'gambar' => 'kertas.jpg',
+            ],
+            [
+                'nama' => 'Kaca',
+                'deskripsi' => 'Sampah dari bahan kaca.',
+                'ciri_ciri' => 'Bening atau buram, keras dan rapuh.',
+                'contoh' => 'Botol kaca, jendela pecah.',
+                'cara_daur_ulang' => 'Dilelehkan dan dibentuk ulang.',
+                'gambar' => 'kaca.jpg',
+            ],
+            [
+                'nama' => 'Logam',
+                'deskripsi' => 'Sampah dari logam atau besi.',
+                'ciri_ciri' => 'Berat, kuat, tahan lama.',
+                'contoh' => 'Kaleng, paku, baut.',
+                'cara_daur_ulang' => 'Dilelehkan dan dibentuk ulang.',
+                'gambar' => 'logam.jpg',
+            ],
+            [
+                'nama' => 'Organik',
+                'deskripsi' => 'Sampah yang berasal dari makhluk hidup.',
+                'ciri_ciri' => 'Mudah membusuk, bisa jadi kompos.',
+                'contoh' => 'Sisa makanan, daun kering.',
+                'cara_daur_ulang' => 'Dibuat menjadi kompos atau biogas.',
                 'gambar' => 'organik.jpg',
             ],
-            [
-                'nama' => 'Sampah Anorganik',
-                'deskripsi' => 'Sampah yang tidak dapat terurai secara alami atau membutuhkan waktu sangat lama untuk terurai.',
-                'ciri_ciri' => 'Tidak mudah membusuk, kering, tidak menimbulkan bau.',
-                'contoh' => 'Plastik, kaleng, botol kaca, kertas, kardus, logam.',
-                'cara_daur_ulang' => 'Pemilahan berdasarkan jenis material, kemudian diolah menjadi produk baru.',
-                'gambar' => 'anorganik.jpg',
-            ],
-            [
-                'nama' => 'Sampah Elektronik (E-Waste)',
-                'deskripsi' => 'Sampah yang berasal dari peralatan elektronik yang sudah tidak terpakai.',
-                'ciri_ciri' => 'Berupa perangkat elektronik yang rusak atau sudah tidak dipakai.',
-                'contoh' => 'Handphone bekas, laptop rusak, TV rusak, baterai bekas, perangkat elektronik lainnya.',
-                'cara_daur_ulang' => 'Disalurkan ke tempat pengolahan e-waste untuk diambil komponen yang masih bisa digunakan.',
-                'gambar' => 'elektronik.jpg',
-            ],
-            [
-                'nama' => 'Sampah B3 (Bahan Berbahaya dan Beracun)',
-                'deskripsi' => 'Sampah yang mengandung zat berbahaya dan beracun yang dapat membahayakan manusia dan lingkungan.',
-                'ciri_ciri' => 'Bersifat korosif, mudah terbakar, beracun, atau reaktif.',
-                'contoh' => 'Baterai, lampu neon, cat, minyak bekas, obat kadaluarsa, pestisida.',
-                'cara_daur_ulang' => 'Harus ditangani khusus oleh lembaga pengelola limbah B3 yang bersertifikat.',
-                'gambar' => 'b3.jpg',
-            ],
         ];
-        
-        foreach ($jenisSampah as $sampah) {
-            JenisSampah::create($sampah);
+
+        foreach ($data as $item) {
+            JenisSampah::create($item);
         }
     }
 }

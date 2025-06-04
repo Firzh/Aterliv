@@ -10,9 +10,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $jenisSampah = JenisSampah::all();
-        $lokasi = LokasiDaurUlang::take(3)->get();
-        
-        return view('home', compact('jenisSampah', 'lokasi'));
+        // function..
     }
 }
