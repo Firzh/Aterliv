@@ -98,8 +98,7 @@
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md flex items-start space-x-4" data-aos="fade-up" data-aos-delay="1100">
                         <img src="https://placehold.co/60x60/a0aec0/ffffff?text=JD" alt="Foto Profil John Doe" class="w-16 h-16 rounded-full object-cover flex-shrink-0 border-2 border-green-400">
                         <div>
-                            <p class="text-lg font-semibold text-gray-800">Budi Santoso
-</p>
+                            <p class="text-lg font-semibold text-gray-800">John Doe</p>
                             <p class="text-sm text-gray-600 mb-3">Anggota Sejak 2023</p>
                             <p class="text-gray-700 italic leading-relaxed">"Bergabung dengan Återliv sangat mengubah pandangan saya tentang daur ulang. Mudah, menyenangkan, dan saya merasa benar-benar berkontribusi!"</p>
                         </div>
@@ -108,8 +107,7 @@
                     <div class="bg-gray-50 p-6 rounded-xl shadow-md flex items-start space-x-4" data-aos="fade-up" data-aos-delay="1200">
                         <img src="https://placehold.co/60x60/a0aec0/ffffff?text=AS" alt="Foto Profil Alice Smith" class="w-16 h-16 rounded-full object-cover flex-shrink-0 border-2 border-blue-400">
                         <div>
-                            <p class="text-lg font-semibold text-gray-800">Siti Aminah
-</p>
+                            <p class="text-lg font-semibold text-gray-800">Alice Smith</p>
                             <p class="text-sm text-gray-600 mb-3">Anggota Sejak 2024</p>
                             <p class="text-gray-700 italic leading-relaxed">"Saya suka fitur penjemputan sampah dan rewardnya! Ini membuat saya lebih termotivasi untuk menjaga lingkungan."</p>
                         </div>

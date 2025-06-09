@@ -59,6 +59,17 @@ class PenjemputanSampahController extends Controller
         
         return redirect()->route('pages.jemput.index')
                         ->with('success', 'Permintaan penjemputan sampah berhasil dibuat.');
+
+        PickupRequest::create([
+            'user_id' => auth()->id(),
+            'sampah_jenis' => $request->sampah_jenis,
+            'berat' => $request->berat,
+            'status' => 'menunggu',
+        ]);
+
+        return back()->with('success', 'Permintaan penjemputan dikirim.');
+
+
     }
 
     /**
@@ -134,7 +145,7 @@ class PenjemputanSampahController extends Controller
         }
         
         return redirect()->route('pages.jemput')
-                        ->with('success', 'Permintaan penjemputan sampah berhasil diperbarui.');
+        ->with('success', 'Permintaan penjemputan sampah berhasil diperbarui.');
     }
 
     /**
@@ -166,33 +177,59 @@ class PenjemputanSampahController extends Controller
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
-        
+
         $validated = $request->validate([
             'status' => 'required|in:menunggu,diproses,selesai,dibatalkan',
         ]);
-        
-        $penjemputan->update($validated);
-        
-        if ($validated['status'] === 'selesai') {
-        // Buat kontribusi
-        Kontribusi::create([
-            'user_id' => $penjemputan->user_id,
-            'jenis_sampah' => $penjemputan->jenis_sampah,
-            'berat' => $penjemputan->perkiraan_berat,
-            'emisi' => $penjemputan->perkiraan_berat * $this->getFaktorEmisi($penjemputan->jenis_sampah),
-        ]);
 
-        // Tambah poin user
-        $user = $penjemputan->user;
-        $emisi = $penjemputan->perkiraan_berat * $this->getFaktorEmisi($penjemputan->jenis_sampah);
-        $poin = floor($emisi * 10);
-        $user->increment('poin', $poin);
-        $user->level = $this->getLevel($user->poin);
-        $user->save();
-    }
+        // Update status permintaan
+        $penjemputan->update($validated);
+
+        // Muat relasi user agar bisa akses user-nya
+        $penjemputan->load('user');
+
+        // Jika status selesai, beri kontribusi dan poin
+        if ($validated['status'] === 'selesai') {
+            $emisi = $penjemputan->perkiraan_berat * $this->getFaktorEmisi($penjemputan->jenis_sampah);
+            $points = floor($emisi * 10);
+
+            // Buat kontribusi
+            \App\Models\Kontribusi::create([
+                'user_id' => $penjemputan->user_id,
+                'jenis_sampah' => $penjemputan->jenis_sampah,
+                'berat' => $penjemputan->perkiraan_berat,
+                'emisi' => $emisi,
+            ]);
+
+            // Tambah poin ke user dan update level
+            $user = $penjemputan->user;
+            $user->increment('points', $points);
+            $user->level = $this->getLevel($user->points); // <-- pakai 'points' di sini
+            $user->save();
+        }
 
         return redirect()->route('pages.jemput')
-                        ->with('success', 'Status permintaan penjemputan sampah berhasil diperbarui.');
+            ->with('success', 'Status permintaan penjemputan sampah berhasil diperbarui.');
     }
+
+    
+    private function getFaktorEmisi($jenis_sampah)
+    {
+        switch (strtolower($jenis_sampah)) {
+            case 'Plastik':
+                return 3.0; 
+            case 'Kertas':
+                return 2.5; 
+            case 'Kaca':
+                return 1.2; 
+            case 'Logam':
+                return 3.5; 
+            case 'Organik':
+                return 1.0; 
+            default:
+                return 1.0;
+        }
+    }
+
 
 }

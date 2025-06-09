@@ -9,13 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['user', 'admin'])->default('user')->after('password');
+            $table->integer('points')->default(0);
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('poins')->default(0)->after('password');
+            $table->string('level')->default('EcoNewbie')->after('poins');
+            $table->string('badge')->nullable()->after('level');
         });
     }
-
 
 
     /**
@@ -24,7 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
+            //
         });
     }
 };

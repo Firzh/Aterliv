@@ -36,7 +36,7 @@
                     Poin Anda Saat Ini:
                 </p>
                 <p class="text-5xl md:text-6xl font-extrabold text-blue-800 leading-none flex items-center justify-center">
-                    <span class="mr-3">⭐</span> {{ Auth::user()->poin }}
+                    <span class="mr-3">⭐</span> {{ Auth::user()->points }}
                 </p>
                 <p class="text-sm text-gray-600 mt-2 italic">
                     Kumpulkan lebih banyak poin dengan kontribusi lingkungan!
