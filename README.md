@@ -20,9 +20,3 @@
 - **Asset Management**: Node.js & NPM
 - **Authentication**: Laravel Socialite (Google OAuth)
 
-## 🛠️ Instalasi & Setup
-
-### 1. Clone repository
-```bash
-git clone https://github.com/username/aterliv.git
-cd aterliv
