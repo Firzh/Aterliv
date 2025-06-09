@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Penjemputan;
+
 
 class PenjemputanController extends Controller
 {
@@ -12,8 +14,10 @@ class PenjemputanController extends Controller
      */
     public function index()
     {
-        return view('admin.penjemputan.index');
+        $penjemputan = \App\Models\Penjemputan::all(); // Ambil semua data
+        return view('admin.penjemputan.index', compact('penjemputan'));
     }
+
 
 
     /**
@@ -51,10 +55,30 @@ class PenjemputanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateStatus(Request $request, $id)
     {
-        //
+        $penjemputan = Penjemputan::findOrFail($id);
+        $penjemputan->status = $request->input('status');
+        $penjemputan->save();
+
+        // Tambah poin saat status diproses
+        if (strtolower($request->status) === 'diproses') {
+            $user = $penjemputan->user;
+
+            if ($user) {
+                $user->points += 10;
+
+                // Log untuk debugging
+                \Log::info('User ID: ' . $user->id . ' mendapatkan poin. Poin sekarang: ' . $user->points);
+
+                $user->save();
+            }
+        }
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

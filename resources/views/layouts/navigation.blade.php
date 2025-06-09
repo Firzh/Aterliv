@@ -35,7 +35,7 @@
                 {{-- Consolidated Dropdown --}}
                 <div class="relative">
                     @php
-                        $isAksiActive = request()->routeIs(['pages.kalkulator', 'pages.kontribusi', 'pages.reward', 'pages.jemput']);
+                        $isAksiActive = request()->routeIs(['pages.kalkulator', 'pages.kontribusi', 'pages.reward', 'pages.jemput.create','views.prodcuts.index']);
                     @endphp
                     <button onclick="toggleAksiDropdown()"
                             class="flex items-center gap-1 text-sm font-medium hover:text-blue-700 transition-colors duration-200"
@@ -62,9 +62,13 @@
                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Tukar Reward
                         </a>
-                        <a href="{{ route('pages.jemput.index') }}" {{-- Changed route to pages.jemput --}}
+                        <a href="{{ route('pages.jemput.store') }}" {{-- Changed route to pages.jemput --}}
                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Penjemputan Sampah
+                        </a>
+                        <a href="{{ route('products.index') }}" {{-- Changed route to pages.jemput --}}
+                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Produk
                         </a>
                     </div>
                 </div>

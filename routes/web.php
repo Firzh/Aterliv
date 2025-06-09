@@ -99,30 +99,34 @@ Route::middleware(['auth'])->group(function () {
 // ---------------------- ADMIN ----------------------
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/users', [AdminController::class, 'userList'])->name('users.index'); // Menampilkan daftar user
+    Route::get('/users', [AdminController::class, 'userList'])->name('users.index');
     Route::post('/users/{user}/toggle-admin', [AdminController::class, 'toggleAdmin'])->name('users.toggleAdmin');
-    Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy'); // Menggunakan 'users.destroy' karena sudah di dalam grup 'admin.'
+    Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
 
     // Product Management
-    Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-        Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
-        Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
-        });
-
-    
-
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
     // Penjemputan Management
-    Route::resource('penjemputan', PenjemputanController::class); // Membuat: admin.penjemputan.index, admin.penjemputan.create, dll.
-    Route::put('/admin/penjemputan/{penjemputan}/status', [PenjemputanSampahController::class, 'updateStatus'])
-    ->name('penjemputan.updateStatus');
-    Route::get('/admin/penjemputan', [PenjemputanSampahController::class, 'index'])
-    ->name('penjemputan.index');
-
+    Route::resource('penjemputan', PenjemputanController::class);
 
 });
 
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::put('/penjemputan/{id}/update-status', [PenjemputanController::class, 'updateStatus'])->name('penjemputan.updateStatus');
+});
+
+Route::post('/penjemputan', [PenjemputanController::class, 'store'])->name('penjemputan.store');
+
+Route::prefix('jemput')->group(function () {
+    Route::post('/store', [PenjemputanSampahController::class, 'store'])->name('pickup.store');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
+    Route::post('/produk/{product}/exchange', [ProductController::class, 'exchange'])->name('products.exchange');
+});
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductController::class);
@@ -144,7 +148,6 @@ Route::get('/admin/products/create', [ProductController::class, 'create'])->name
 Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
 
 // Menampilkan semua produk (halaman produk)
-Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
@@ -153,8 +156,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 });
 
 
-Route::get('/produk', [ProductController::class, 'userProductList'])->name('products.index');
-Route::resource('products', ProductController::class);
+Route::get('/produk', [ProductController::class, 'userProductList'])->name('views.products.index');
+Route::resource('views.products.index', ProductController::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/produk', [ProductController::class, 'userProductList'])->name('products.index');
+});
 
 
 // ---------------------- LOGIN GOOGLE ----------------------

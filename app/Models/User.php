@@ -18,6 +18,19 @@ class User extends Authenticatable
     public function penukarans() {
         return $this->hasMany(PenukaranPoin::class);
     }
+
+    public function getLevel()
+    {
+        if ($this->points >= 1000) {
+            return 'Master';
+        } elseif ($this->points >= 500) {
+            return 'Expert';
+        } elseif ($this->points >= 100) {
+            return 'Intermediate';
+        } else {
+            return 'Beginner';
+        }
+    }
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -29,6 +42,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'points'
     ];
 
     /**

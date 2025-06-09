@@ -11,23 +11,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('penjemputan_sampah', function (Blueprint $table) {
+        Schema::create('pickup_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('alamat');
-            $table->date('tanggal_penjemputan');
-            $table->boolean('approved')->default(false);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('sampah_jenis');
+            $table->float('berat'); // dalam kg
+            $table->enum('status', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
             $table->timestamps();
         });
     }
 
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('penjemputan_sampah');
+        Schema::dropIfExists('pickup_requests');
     }
 };

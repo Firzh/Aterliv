@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product; // pastikan ini ada
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -19,11 +21,20 @@ class ProductController extends Controller
 
     public function create()
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403); // Forbidden
+        }
+
         return view('admin.products.create');   
     }
 
     public function store(Request $request)
     {
+
+        if (auth()->user()->role !== 'admin') {
+            abort(403);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -101,6 +112,25 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return view('products.index', compact('products'));
+    }
+
+     public function exchange($id)
+    {
+        $user = Auth::user();
+        $product = Product::findOrFail($id);
+
+        if ($user->points < $product->price) {
+            return redirect()->route('products.index')->with('error', 'Poin Anda tidak cukup untuk menukar produk ini.');
+        }
+
+        // Kurangi poin user
+        $user->points -= $product->price;
+        $user->save();
+
+        // Di sini kamu bisa tambah logic lain,
+        // misal simpan data penukaran produk di tabel lain, kirim notifikasi, dll.
+
+        return redirect()->route('products.index')->with('success', 'Berhasil menukar produk: ' . $product->name);
     }
 
 }

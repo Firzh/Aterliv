@@ -14,7 +14,7 @@
                         Halo, {{ Auth::user()->name }}!
                     </h1>
                     <p class="text-lg md:text-xl text-gray-600" data-aos="fade-up" data-aos-delay="200">
-                        Level Anda: <span class="font-semibold text-blue-700">{{ Auth::user()->level }}</span> | Poin: <span class="font-semibold text-yellow-700">{{ Auth::user()->poin }} ⭐</span>
+                        Level Anda: <span class="font-semibold text-blue-700">{{ Auth::user()->getLevel() }}</span> | Poin: <span class="font-semibold text-yellow-700">{{ Auth::user()->points }} ⭐</span>
                     </p>
                 </div>
 
